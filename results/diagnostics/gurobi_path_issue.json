@@ -1,0 +1,5 @@
+{
+  "reason": "Gurobi initial startup failed because native Windows library did not open packaged license under a Unicode path. Repeated with the same packaged restricted license at an ASCII path.",
+  "license_kind": "bundled restricted non-production license",
+  "changed_model": false
+}

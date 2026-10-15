@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Các pha thời gian SAT tại $N=128$ tính bằng giây. Mỗi số là trung vị riêng của pha trên ba lần SAT; tổng các trung vị pha không bắt buộc bằng trung vị tổng. TO không có số đo pha hoàn thành.}
+\label{tab:phases}
+\FitTableWidth{%
+\begin{tabular}{lrrrrl}
+\toprule
+Mã hóa & Tạo CNF & Nạp solver & Tìm nghiệm & Tổng & Nhỏ nhất tới lớn nhất \\
+\midrule
+Pairwise & 1.3986 & 0.8466 & 0.0316 & 2.4054 & 2.2819--2.4719 \\
+Binary & 0.1716 & 0.1217 & 0.0318 & 0.3441 & 0.3418--0.3550 \\
+Sequential & -- & -- & -- & TO & -- \\
+Commander & 0.0922 & 0.0747 & 0.1453 & 0.3276 & 0.3206--0.3542 \\
+Product & 0.0591 & 0.0586 & 0.2008 & 0.3325 & 0.3275--0.3387 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

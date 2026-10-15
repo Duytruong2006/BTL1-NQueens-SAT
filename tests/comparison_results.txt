@@ -1,0 +1,12 @@
+test_all_and_only_nontrivial_diagonals_are_generated (test_comparisons.ComparisonTests.test_all_and_only_nontrivial_diagonals_are_generated) ... ok
+test_independent_geometry_validator (test_comparisons.ComparisonTests.test_independent_geometry_validator) ... ok
+test_invalid_arguments (test_comparisons.ComparisonTests.test_invalid_arguments) ... ok
+test_license_errors_are_distinguished (test_comparisons.ComparisonTests.test_license_errors_are_distinguished) ... ok
+test_missing_cp_optimizer_is_explicit (test_comparisons.ComparisonTests.test_missing_cp_optimizer_is_explicit) ... ok
+test_missing_dependency_is_not_a_timeout_or_zero_time (test_comparisons.ComparisonTests.test_missing_dependency_is_not_a_timeout_or_zero_time) ... ok
+test_real_small_instances_all_available_backends (test_comparisons.ComparisonTests.test_real_small_instances_all_available_backends) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.162s
+
+OK

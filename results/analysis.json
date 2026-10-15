@@ -1,0 +1,3018 @@
+{
+  "created_at": "2026-10-15T00:36:11.717609+00:00",
+  "timing_metric": "elapsed_seconds: build + solver setup + search + decode + validation; imports excluded",
+  "statistical_policy": "Only verified SAT records enter medians/min/max. TIMEOUT is right-censored; its limit is never a solved runtime. Main charts/tables show medians only for complete 3/3 SAT groups.",
+  "table_legend": {
+    "TO": "Work timeout",
+    "LIC": "License size limit",
+    "UNAV": "Unavailable solver",
+    "START": "Startup failure; inspect startup_reason and raw message",
+    "STO": "Startup timeout",
+    "SKIP": "Predeclared resource cap",
+    "ERR": "Error",
+    "--": "No recorded trial",
+    "Pending": "Incomplete set of expected repeats"
+  },
+  "source_scope": [
+    {
+      "file": "results\\comparison_main\\raw.jsonl",
+      "suite": "main",
+      "lines_read": 60,
+      "records_read": 60,
+      "bytes_read": 54130
+    },
+    {
+      "file": "results\\large\\raw.jsonl",
+      "suite": "large",
+      "lines_read": 27,
+      "records_read": 27,
+      "bytes_read": 39555
+    },
+    {
+      "file": "results\\sat_main\\raw.jsonl",
+      "suite": "main",
+      "lines_read": 75,
+      "records_read": 75,
+      "bytes_read": 62138
+    }
+  ],
+  "protocols": [
+    {
+      "source_directory": "comparison_main",
+      "suite": "main",
+      "limit_seconds": 30.0,
+      "startup_limit_seconds": 120,
+      "methods": [
+        "cp_sat",
+        "cplex_mip",
+        "gurobi",
+        "cplex_cp"
+      ],
+      "shuffle_seed": 24021650,
+      "pairwise_clause_cap": 5000000,
+      "tasks": 60,
+      "concurrency": 1,
+      "timing": "elapsed_seconds measures build, solver setup, solve, decode and validation; excludes imports"
+    },
+    {
+      "source_directory": "large",
+      "suite": "large",
+      "limit_seconds": 30.0,
+      "startup_limit_seconds": 120,
+      "methods": [
+        "pairwise",
+        "binary",
+        "sequential",
+        "commander",
+        "product",
+        "cp_sat",
+        "cplex_mip",
+        "gurobi",
+        "cplex_cp"
+      ],
+      "shuffle_seed": 24021650,
+      "pairwise_clause_cap": 5000000,
+      "tasks": 27,
+      "concurrency": 1,
+      "timing": "elapsed_seconds measures build, solver setup, solve, decode and validation; excludes imports"
+    },
+    {
+      "source_directory": "sat_main",
+      "suite": "main",
+      "limit_seconds": 30.0,
+      "startup_limit_seconds": 120,
+      "methods": [
+        "pairwise",
+        "binary",
+        "sequential",
+        "commander",
+        "product"
+      ],
+      "shuffle_seed": 24021650,
+      "pairwise_clause_cap": 5000000,
+      "tasks": 75,
+      "concurrency": 1,
+      "timing": "elapsed_seconds measures build, solver setup, solve, decode and validation; excludes imports"
+    }
+  ],
+  "records_analyzed": 162,
+  "groups": [
+    {
+      "suite": "large",
+      "method": "binary",
+      "n": 256,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 2.1574966000000586,
+      "min_seconds": 2.1574966000000586,
+      "max_seconds": 2.1574966000000586,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.9384891999998217,
+      "median_setup_seconds": 0.5390462000000298,
+      "median_solve_seconds": 0.5870197000001554,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "binary",
+      "n": 512,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 7.964916700000003,
+      "min_seconds": 7.964916700000003,
+      "max_seconds": 7.964916700000003,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 4.481151899999986,
+      "median_setup_seconds": 2.5142687000000024,
+      "median_solve_seconds": 0.5606692999999723,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "binary",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "commander",
+      "n": 256,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 1.2245424999998704,
+      "min_seconds": 1.2245424999998704,
+      "max_seconds": 1.2245424999998704,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.5320729000000028,
+      "median_setup_seconds": 0.32821289999992587,
+      "median_solve_seconds": 0.2985744000000068,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "commander",
+      "n": 512,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 5.507529599999998,
+      "min_seconds": 5.507529599999998,
+      "max_seconds": 5.507529599999998,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 2.1497557000000143,
+      "median_setup_seconds": 1.3003349000000526,
+      "median_solve_seconds": 1.7979867999999897,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "commander",
+      "n": 1000,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 23.900376499999993,
+      "min_seconds": 23.900376499999993,
+      "max_seconds": 23.900376499999993,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 8.530712400000084,
+      "median_setup_seconds": 5.396192400000018,
+      "median_solve_seconds": 8.660709300000008,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "cp_sat",
+      "n": 256,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 15.07708660000003,
+      "min_seconds": 15.07708660000003,
+      "max_seconds": 15.07708660000003,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0029056999999284017,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 15.070144999999911,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cp_sat",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cp_sat",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_cp",
+      "n": 256,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_cp",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_cp",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_mip",
+      "n": 256,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_mip",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "cplex_mip",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "gurobi",
+      "n": 256,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "gurobi",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "gurobi",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "LICENSE_LIMIT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "pairwise",
+      "n": 256,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SKIPPED_RESOURCE": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "Predeclared cap 5,000,000 pairwise clauses"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "pairwise",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SKIPPED_RESOURCE": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "Predeclared cap 5,000,000 pairwise clauses"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "pairwise",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SKIPPED_RESOURCE": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "Predeclared cap 5,000,000 pairwise clauses"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "product",
+      "n": 256,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 1.7503937999999835,
+      "min_seconds": 1.7503937999999835,
+      "max_seconds": 1.7503937999999835,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.31578419999982543,
+      "median_setup_seconds": 0.22953270000016346,
+      "median_solve_seconds": 1.1596513999998024,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "product",
+      "n": 512,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 3.3488155000000006,
+      "min_seconds": 3.3488155000000006,
+      "max_seconds": 3.3488155000000006,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 1.4351447000001372,
+      "median_setup_seconds": 0.9312717000000248,
+      "median_solve_seconds": 0.82728689999999,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "product",
+      "n": 1000,
+      "solved_count": 1,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "SAT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": 14.57119990000001,
+      "min_seconds": 14.57119990000001,
+      "max_seconds": 14.57119990000001,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 5.629982400000017,
+      "median_setup_seconds": 3.6114284000000225,
+      "median_solve_seconds": 4.75040110000009,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "large",
+      "method": "sequential",
+      "n": 256,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "sequential",
+      "n": 512,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "large",
+      "method": "sequential",
+      "n": 1000,
+      "solved_count": 0,
+      "trials": 1,
+      "expected_trials": 1,
+      "status_counts": {
+        "TIMEOUT": 1
+      },
+      "repeat_ids": [
+        1
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "binary",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.0007803000000876636,
+      "min_seconds": 0.0007605000000694417,
+      "max_seconds": 0.0007935999999517662,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.00031100000001060835,
+      "median_setup_seconds": 0.00028850000001057197,
+      "median_solve_seconds": 8.200000002034358e-05,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "binary",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.10083529999997154,
+      "min_seconds": 0.09898710000004485,
+      "max_seconds": 0.1034781999999268,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.001059899999972913,
+      "median_setup_seconds": 0.0011719000000312008,
+      "median_solve_seconds": 0.09824950000006538,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "binary",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.06424739999999929,
+      "min_seconds": 0.06378979999999501,
+      "max_seconds": 0.06458970000005593,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.00521800000001349,
+      "median_setup_seconds": 0.005508100000042759,
+      "median_solve_seconds": 0.052455099999974664,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "binary",
+      "n": 64,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.06887089999986529,
+      "min_seconds": 0.06886979999990217,
+      "max_seconds": 0.06967940000004091,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.027937700000052246,
+      "median_setup_seconds": 0.026177599999982704,
+      "median_solve_seconds": 0.01100140000016836,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "binary",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.3440973000001577,
+      "min_seconds": 0.34177600000009534,
+      "max_seconds": 0.3550420999999915,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.17159460000004856,
+      "median_setup_seconds": 0.12174800000002506,
+      "median_solve_seconds": 0.03177200000004632,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "commander",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.0008126000000174827,
+      "min_seconds": 0.000811500000054366,
+      "max_seconds": 0.0008344000000306551,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.00031100000001060835,
+      "median_setup_seconds": 0.0002676999999948748,
+      "median_solve_seconds": 0.0001504000000522865,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "commander",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.01392339999995329,
+      "min_seconds": 0.013740500000039901,
+      "max_seconds": 0.014066400000046997,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0011987000000317494,
+      "median_setup_seconds": 0.001132600000119055,
+      "median_solve_seconds": 0.01126750000003085,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "commander",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.2688457000001563,
+      "min_seconds": 0.267888800000037,
+      "max_seconds": 0.2724551999999676,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.005206700000030651,
+      "median_setup_seconds": 0.004387899999983347,
+      "median_solve_seconds": 0.25801780000006147,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "commander",
+      "n": 64,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 21.473419599999943,
+      "min_seconds": 21.073581500000046,
+      "max_seconds": 21.762336199999936,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.020087599999897066,
+      "median_setup_seconds": 0.017956200000071476,
+      "median_solve_seconds": 21.430344200000036,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "commander",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.3275979999999663,
+      "min_seconds": 0.32058230000006915,
+      "max_seconds": 0.35417710000001534,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.09220230000005358,
+      "median_setup_seconds": 0.07465199999990091,
+      "median_solve_seconds": 0.14532230000008894,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "cp_sat",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.010675099999843951,
+      "min_seconds": 0.01055939999992006,
+      "max_seconds": 0.01070819999995365,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0005793999998786603,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.006802200000038283,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cp_sat",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.019863799999939147,
+      "min_seconds": 0.019392299999935858,
+      "max_seconds": 0.02083089999996446,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0006499999999505235,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.015887100000099963,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cp_sat",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.05942039999990811,
+      "min_seconds": 0.05835090000005039,
+      "max_seconds": 0.0808423999999377,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.000802300000032119,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.055460899999843605,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cp_sat",
+      "n": 64,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.2656812999998692,
+      "min_seconds": 0.2571503000001485,
+      "max_seconds": 0.28355839999994714,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0011037000001579145,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.26106929999991735,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cp_sat",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 1.5040397000000212,
+      "min_seconds": 1.460379299999886,
+      "max_seconds": 1.5588502999999037,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0017153999999663938,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 1.4987006000001202,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_cp",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.049587799999926574,
+      "min_seconds": 0.04721800000015719,
+      "max_seconds": 0.05359179999982189,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.00046689999999216525,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.027828999999883308,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_cp",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.04929119999997056,
+      "min_seconds": 0.04910919999997532,
+      "max_seconds": 0.05273750000014843,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0004925999999159103,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.02689490000011574,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_cp",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.04845629999999801,
+      "min_seconds": 0.047608699999955206,
+      "max_seconds": 0.06006260000003749,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0005443000000013853,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.025753600000143706,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_cp",
+      "n": 64,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.04713340000012067,
+      "min_seconds": 0.046075299999984054,
+      "max_seconds": 0.052236900000025344,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0006409999998595595,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.02487569999993866,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_cp",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.055655600000136474,
+      "min_seconds": 0.052347499999996217,
+      "max_seconds": 0.05828409999980977,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0010719000001699897,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.03229530000021441,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_mip",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.006291700000019773,
+      "min_seconds": 0.00627400000007583,
+      "max_seconds": 0.0063864000001103705,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0010686999999052205,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.0018753000001652254,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_mip",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.008031900000105452,
+      "min_seconds": 0.007746399999859932,
+      "max_seconds": 0.008886399999937566,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0012546000000384083,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.003286600000137696,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_mip",
+      "n": 32,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "LICENSE_LIMIT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_mip",
+      "n": 64,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "LICENSE_LIMIT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "cplex_mip",
+      "n": 128,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "LICENSE_LIMIT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "gurobi",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.005354200000056153,
+      "min_seconds": 0.005324900000005073,
+      "max_seconds": 0.005422999999836975,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0019436000000041531,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.00022439999997914128,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "gurobi",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.006575999999995474,
+      "min_seconds": 0.006454700000176672,
+      "max_seconds": 0.006715499999927488,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.002895399999943038,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.00020689999996648112,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "gurobi",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.011009800000010728,
+      "min_seconds": 0.010549099999934697,
+      "max_seconds": 0.01143299999989722,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0061034999998810235,
+      "median_setup_seconds": null,
+      "median_solve_seconds": 0.00047769999991942313,
+      "timeout_limits": [],
+      "messages": [
+        "Valid N-Queens solution independently verified."
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "gurobi",
+      "n": 64,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "LICENSE_LIMIT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "gurobi",
+      "n": 128,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "LICENSE_LIMIT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [],
+      "messages": [
+        "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "pairwise",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.0007166999998844403,
+      "min_seconds": 0.0006941000000324493,
+      "max_seconds": 0.0007417000000486951,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0002687000001060369,
+      "median_setup_seconds": 0.00026800000000548607,
+      "median_solve_seconds": 9.109999996326223e-05,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "pairwise",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.012232799999992494,
+      "min_seconds": 0.012015800000085619,
+      "max_seconds": 0.012799299999983305,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0015244999999595166,
+      "median_setup_seconds": 0.001598700000045028,
+      "median_solve_seconds": 0.008829899999909685,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "pairwise",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.02733589999979813,
+      "min_seconds": 0.02610810000010133,
+      "max_seconds": 0.029872400000044763,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.010363800000050105,
+      "median_setup_seconds": 0.01206569999999374,
+      "median_solve_seconds": 0.0028086999999459294,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "pairwise",
+      "n": 64,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.254419299999995,
+      "min_seconds": 0.2525315000000319,
+      "max_seconds": 0.27001959999995506,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.12652330000003076,
+      "median_setup_seconds": 0.10142270000005738,
+      "median_solve_seconds": 0.012902299999950628,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "pairwise",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 2.405368400000043,
+      "min_seconds": 2.2818770000001223,
+      "max_seconds": 2.471882899999855,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 1.3986231999999745,
+      "median_setup_seconds": 0.846633200000042,
+      "median_solve_seconds": 0.03161520000003293,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "product",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.0008255000000190194,
+      "min_seconds": 0.0008232000000134576,
+      "max_seconds": 0.0009152999998605083,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0002908999999817752,
+      "median_setup_seconds": 0.00027769999996962724,
+      "median_solve_seconds": 0.0001778000000740576,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "product",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.13646019999987402,
+      "min_seconds": 0.13408110000000306,
+      "max_seconds": 0.14142999999990025,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.00084500000002663,
+      "median_setup_seconds": 0.0009830999999849155,
+      "median_solve_seconds": 0.1342207000000144,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "product",
+      "n": 32,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "TIMEOUT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "product",
+      "n": 64,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "TIMEOUT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "product",
+      "n": 128,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.3325044999999136,
+      "min_seconds": 0.32750880000003235,
+      "max_seconds": 0.3386940999999979,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.05911240000000362,
+      "median_setup_seconds": 0.05857580000008511,
+      "median_solve_seconds": 0.200756399999932,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "sequential",
+      "n": 8,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.0006737999999586464,
+      "min_seconds": 0.0006574999999884312,
+      "max_seconds": 0.0008239999999659631,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0002193000000261236,
+      "median_setup_seconds": 0.00025210000001152366,
+      "median_solve_seconds": 0.00010279999992235389,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "sequential",
+      "n": 16,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.008271400000012363,
+      "min_seconds": 0.007898600000089573,
+      "max_seconds": 0.008452099999999518,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0006647000000157277,
+      "median_setup_seconds": 0.0009854999998424319,
+      "median_solve_seconds": 0.0063369000001785025,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "sequential",
+      "n": 32,
+      "solved_count": 3,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "SAT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": 0.14590519999990192,
+      "min_seconds": 0.14312930000005508,
+      "max_seconds": 0.14772849999985738,
+      "all_expected_trials_sat": true,
+      "median_build_seconds": 0.0028343999999833613,
+      "median_setup_seconds": 0.0034867000000531334,
+      "median_solve_seconds": 0.13822689999994964,
+      "timeout_limits": [],
+      "messages": []
+    },
+    {
+      "suite": "main",
+      "method": "sequential",
+      "n": 64,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "TIMEOUT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    },
+    {
+      "suite": "main",
+      "method": "sequential",
+      "n": 128,
+      "solved_count": 0,
+      "trials": 3,
+      "expected_trials": 3,
+      "status_counts": {
+        "TIMEOUT": 3
+      },
+      "repeat_ids": [
+        1,
+        2,
+        3
+      ],
+      "median_seconds": null,
+      "min_seconds": null,
+      "max_seconds": null,
+      "all_expected_trials_sat": false,
+      "median_build_seconds": null,
+      "median_setup_seconds": null,
+      "median_solve_seconds": null,
+      "timeout_limits": [
+        30.0
+      ],
+      "messages": [
+        "Hard wall limit from model build through validation"
+      ]
+    }
+  ],
+  "cnf_counts": [
+    {
+      "n": 8,
+      "method": "pairwise",
+      "nvars": 64,
+      "nprimary": 64,
+      "nauxiliary": 0,
+      "nclauses": 744
+    },
+    {
+      "n": 8,
+      "method": "binary",
+      "nvars": 174,
+      "nprimary": 64,
+      "nauxiliary": 110,
+      "nclauses": 728
+    },
+    {
+      "n": 8,
+      "method": "sequential",
+      "nvars": 274,
+      "nprimary": 64,
+      "nauxiliary": 210,
+      "nclauses": 604
+    },
+    {
+      "n": 8,
+      "method": "commander",
+      "nvars": 154,
+      "nprimary": 64,
+      "nauxiliary": 90,
+      "nclauses": 634
+    },
+    {
+      "n": 8,
+      "method": "product",
+      "nvars": 252,
+      "nprimary": 64,
+      "nauxiliary": 188,
+      "nclauses": 668
+    },
+    {
+      "n": 32,
+      "method": "pairwise",
+      "nvars": 1024,
+      "nprimary": 1024,
+      "nauxiliary": 0,
+      "nclauses": 52640
+    },
+    {
+      "n": 32,
+      "method": "binary",
+      "nvars": 1850,
+      "nprimary": 1024,
+      "nauxiliary": 826,
+      "nclauses": 19800
+    },
+    {
+      "n": 32,
+      "method": "sequential",
+      "nvars": 4930,
+      "nprimary": 1024,
+      "nauxiliary": 3906,
+      "nclauses": 11596
+    },
+    {
+      "n": 32,
+      "method": "commander",
+      "nvars": 3114,
+      "nprimary": 1024,
+      "nauxiliary": 2090,
+      "nclauses": 13606
+    },
+    {
+      "n": 32,
+      "method": "product",
+      "nvars": 2768,
+      "nprimary": 1024,
+      "nauxiliary": 1744,
+      "nclauses": 11892
+    },
+    {
+      "n": 128,
+      "method": "pairwise",
+      "nvars": 16384,
+      "nprimary": 16384,
+      "nauxiliary": 0,
+      "nclauses": 3462784
+    },
+    {
+      "n": 128,
+      "method": "binary",
+      "nvars": 21238,
+      "nprimary": 16384,
+      "nauxiliary": 4854,
+      "nclauses": 447832
+    },
+    {
+      "n": 128,
+      "method": "sequential",
+      "nvars": 81154,
+      "nprimary": 16384,
+      "nauxiliary": 64770,
+      "nclauses": 193804
+    },
+    {
+      "n": 128,
+      "method": "commander",
+      "nvars": 49674,
+      "nprimary": 16384,
+      "nauxiliary": 33290,
+      "nclauses": 227010
+    },
+    {
+      "n": 128,
+      "method": "product",
+      "nvars": 30182,
+      "nprimary": 16384,
+      "nauxiliary": 13798,
+      "nclauses": 192906
+    }
+  ],
+  "example_board": {
+    "n": 8,
+    "method": "sequential",
+    "repeat": 1,
+    "solution": [
+      3,
+      6,
+      4,
+      1,
+      5,
+      0,
+      2,
+      7
+    ],
+    "source_file": "results\\sat_main\\raw.jsonl",
+    "source_line": 64
+  },
+  "findings": {
+    "fastest_sat_methods_by_n": [
+      {
+        "n": 8,
+        "method": "sequential",
+        "median_seconds": 0.0006737999999586464,
+        "eligible_methods": [
+          "pairwise",
+          "binary",
+          "sequential",
+          "commander",
+          "product"
+        ],
+        "all_five_eligible": true
+      },
+      {
+        "n": 16,
+        "method": "sequential",
+        "median_seconds": 0.008271400000012363,
+        "eligible_methods": [
+          "pairwise",
+          "binary",
+          "sequential",
+          "commander",
+          "product"
+        ],
+        "all_five_eligible": true
+      },
+      {
+        "n": 32,
+        "method": "pairwise",
+        "median_seconds": 0.02733589999979813,
+        "eligible_methods": [
+          "pairwise",
+          "binary",
+          "sequential",
+          "commander"
+        ],
+        "all_five_eligible": false
+      },
+      {
+        "n": 64,
+        "method": "binary",
+        "median_seconds": 0.06887089999986529,
+        "eligible_methods": [
+          "pairwise",
+          "binary",
+          "commander"
+        ],
+        "all_five_eligible": false
+      },
+      {
+        "n": 128,
+        "method": "commander",
+        "median_seconds": 0.3275979999999663,
+        "eligible_methods": [
+          "pairwise",
+          "binary",
+          "commander",
+          "product"
+        ],
+        "all_five_eligible": false
+      }
+    ],
+    "speedups_vs_pairwise": [
+      {
+        "n": 8,
+        "method": "binary",
+        "pairwise_median_seconds": 0.0007166999998844403,
+        "method_median_seconds": 0.0007803000000876636,
+        "speedup": 0.9184928870997333
+      },
+      {
+        "n": 8,
+        "method": "sequential",
+        "pairwise_median_seconds": 0.0007166999998844403,
+        "method_median_seconds": 0.0006737999999586464,
+        "speedup": 1.0636687443283273
+      },
+      {
+        "n": 8,
+        "method": "commander",
+        "pairwise_median_seconds": 0.0007166999998844403,
+        "method_median_seconds": 0.0008126000000174827,
+        "speedup": 0.8819837556842492
+      },
+      {
+        "n": 8,
+        "method": "product",
+        "pairwise_median_seconds": 0.0007166999998844403,
+        "method_median_seconds": 0.0008255000000190194,
+        "speedup": 0.8682010900883437
+      },
+      {
+        "n": 16,
+        "method": "binary",
+        "pairwise_median_seconds": 0.012232799999992494,
+        "method_median_seconds": 0.10083529999997154,
+        "speedup": 0.1213146586562042
+      },
+      {
+        "n": 16,
+        "method": "sequential",
+        "pairwise_median_seconds": 0.012232799999992494,
+        "method_median_seconds": 0.008271400000012363,
+        "speedup": 1.4789273883471008
+      },
+      {
+        "n": 16,
+        "method": "commander",
+        "pairwise_median_seconds": 0.012232799999992494,
+        "method_median_seconds": 0.01392339999995329,
+        "speedup": 0.8785785081254243
+      },
+      {
+        "n": 16,
+        "method": "product",
+        "pairwise_median_seconds": 0.012232799999992494,
+        "method_median_seconds": 0.13646019999987402,
+        "speedup": 0.08964372029356389
+      },
+      {
+        "n": 32,
+        "method": "binary",
+        "pairwise_median_seconds": 0.02733589999979813,
+        "method_median_seconds": 0.06424739999999929,
+        "speedup": 0.4254786964110366
+      },
+      {
+        "n": 32,
+        "method": "sequential",
+        "pairwise_median_seconds": 0.02733589999979813,
+        "method_median_seconds": 0.14590519999990192,
+        "speedup": 0.18735384345325942
+      },
+      {
+        "n": 32,
+        "method": "commander",
+        "pairwise_median_seconds": 0.02733589999979813,
+        "method_median_seconds": 0.2688457000001563,
+        "speedup": 0.1016787696428927
+      },
+      {
+        "n": 64,
+        "method": "binary",
+        "pairwise_median_seconds": 0.254419299999995,
+        "method_median_seconds": 0.06887089999986529,
+        "speedup": 3.6941480364056907
+      },
+      {
+        "n": 64,
+        "method": "commander",
+        "pairwise_median_seconds": 0.254419299999995,
+        "method_median_seconds": 21.473419599999943,
+        "speedup": 0.011848103596876377
+      },
+      {
+        "n": 128,
+        "method": "binary",
+        "pairwise_median_seconds": 2.405368400000043,
+        "method_median_seconds": 0.3440973000001577,
+        "speedup": 6.990372781184103
+      },
+      {
+        "n": 128,
+        "method": "commander",
+        "pairwise_median_seconds": 2.405368400000043,
+        "method_median_seconds": 0.3275979999999663,
+        "speedup": 7.3424392090314665
+      },
+      {
+        "n": 128,
+        "method": "product",
+        "pairwise_median_seconds": 2.405368400000043,
+        "method_median_seconds": 0.3325044999999136,
+        "speedup": 7.2340927716787835
+      }
+    ],
+    "clause_reductions_at_128": [
+      {
+        "method": "binary",
+        "n": 128,
+        "nclauses": 447832,
+        "pairwise_nclauses": 3462784,
+        "reduction_percent": 87.06728458950947
+      },
+      {
+        "method": "sequential",
+        "n": 128,
+        "nclauses": 193804,
+        "pairwise_nclauses": 3462784,
+        "reduction_percent": 94.40323161941375
+      },
+      {
+        "method": "commander",
+        "n": 128,
+        "nclauses": 227010,
+        "pairwise_nclauses": 3462784,
+        "reduction_percent": 93.44429222267401
+      },
+      {
+        "method": "product",
+        "n": 128,
+        "nclauses": 192906,
+        "pairwise_nclauses": 3462784,
+        "reduction_percent": 94.4291645104055
+      }
+    ],
+    "non_success_groups": [
+      {
+        "suite": "large",
+        "method": "binary",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cp_sat",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cp_sat",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_cp",
+        "n": 256,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_cp",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_cp",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CpoSolverException: Solver error: Problem size limit exceeded.\nCP Optimizer Community Edition solves problems with search spaces up to 2^1000.\nUnrestricted version options (including academia) at https://ibm.biz/error1016\n"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_mip",
+        "n": 256,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_mip",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "cplex_mip",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "gurobi",
+        "n": 256,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "gurobi",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "gurobi",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "LICENSE_LIMIT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "pairwise",
+        "n": 256,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "SKIPPED_RESOURCE": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "Predeclared cap 5,000,000 pairwise clauses"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "pairwise",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "SKIPPED_RESOURCE": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "Predeclared cap 5,000,000 pairwise clauses"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "pairwise",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "SKIPPED_RESOURCE": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "Predeclared cap 5,000,000 pairwise clauses"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "sequential",
+        "n": 256,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "sequential",
+        "n": 512,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "large",
+        "method": "sequential",
+        "n": 1000,
+        "solved_count": 0,
+        "trials": 1,
+        "expected_trials": 1,
+        "status_counts": {
+          "TIMEOUT": 1
+        },
+        "repeat_ids": [
+          1
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "cplex_mip",
+        "n": 32,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "LICENSE_LIMIT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "cplex_mip",
+        "n": 64,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "LICENSE_LIMIT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "cplex_mip",
+        "n": 128,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "LICENSE_LIMIT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "CplexSolverError: CPLEX Error  1016: Community Edition. Problem size limits exceeded. Purchase at http://ibm.biz/error1016."
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "gurobi",
+        "n": 64,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "LICENSE_LIMIT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "gurobi",
+        "n": 128,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "LICENSE_LIMIT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [],
+        "messages": [
+          "GurobiError: Model too large for size-limited license; visit https://gurobi.com/unrestricted for more information"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "product",
+        "n": 32,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "TIMEOUT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "product",
+        "n": 64,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "TIMEOUT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "sequential",
+        "n": 64,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "TIMEOUT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      },
+      {
+        "suite": "main",
+        "method": "sequential",
+        "n": 128,
+        "solved_count": 0,
+        "trials": 3,
+        "expected_trials": 3,
+        "status_counts": {
+          "TIMEOUT": 3
+        },
+        "repeat_ids": [
+          1,
+          2,
+          3
+        ],
+        "median_seconds": null,
+        "min_seconds": null,
+        "max_seconds": null,
+        "all_expected_trials_sat": false,
+        "median_build_seconds": null,
+        "median_setup_seconds": null,
+        "median_solve_seconds": null,
+        "timeout_limits": [
+          30.0
+        ],
+        "messages": [
+          "Hard wall limit from model build through validation"
+        ]
+      }
+    ],
+    "main_sat_complete": true
+  },
+  "warnings": []
+}

@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Tập mở rộng với một lần chạy mỗi cấu hình, thời gian tổng tính bằng giây. TO là hết hạn, LIC là giới hạn giấy phép, UNAV là thiếu công cụ hoặc giấy phép, SKIP là vượt trần clause đã định.}
+\label{tab:large}
+\begin{tabular}{lrrr}
+\toprule
+Method & 256 & 512 & 1000 \\
+\midrule
+Pairwise & 1 SKIP & 1 SKIP & 1 SKIP \\
+Binary & 2.157 & 7.965 & 1 TO \\
+Sequential & 1 TO & 1 TO & 1 TO \\
+Commander & 1.225 & 5.508 & 23.900 \\
+Product & 1.750 & 3.349 & 14.571 \\
+CP-SAT & 15.077 & 1 TO & 1 TO \\
+CPLEX MIP & 1 LIC & 1 LIC & 1 LIC \\
+Gurobi & 1 LIC & 1 LIC & 1 LIC \\
+CP Optimizer & 1 LIC & 1 LIC & 1 LIC \\
+\bottomrule
+\end{tabular}
+\end{table}

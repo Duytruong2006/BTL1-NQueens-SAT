@@ -1,0 +1,500 @@
+% Phần lý thuyết của báo cáo. Ghép sau abstract và keywords.
+% Yêu cầu các gói toán thông dụng amsmath và amssymb.
+% Không chứa documentclass, preamble, tài liệu tham khảo hoặc số liệu đo.
+
+\section{Giới thiệu}
+\label{sec:theory-introduction}
+
+Bài toán $N$ quân hậu (\emph{N-Queens}) yêu cầu đặt $N$ quân hậu trên bàn cờ
+$N\times N$ sao cho không có hai quân tấn công nhau. Cách phát biểu ngắn gọn
+nhưng nhiều nhóm ràng buộc giao nhau khiến bài toán phù hợp để khảo sát ảnh
+hưởng của cách biểu diễn đối với bộ giải ràng buộc. Trong cách tiếp cận SAT,
+mỗi ô bàn cờ được biểu diễn bằng một biến Boolean, còn các điều kiện về hàng,
+cột và đường chéo được chuyển thành công thức ở dạng chuẩn hội
+(\emph{conjunctive normal form}, CNF). Bộ giải SAT tìm một phép gán thỏa mãn;
+phép gán này sau đó được giải mã và kiểm tra như một bàn cờ thực sự.
+
+Báo cáo kế thừa hướng khảo sát mã hóa AMO trong \cite{bach2024,module3}
+và triển khai năm phương án: pairwise, binary, sequential counter,
+commander và product. Chúng biểu diễn cùng điều kiện ``nhiều nhất một'',
+với những lựa chọn khác nhau về số biến phụ, số clause và cấu trúc suy
+diễn. Hai yếu tố cần đánh giá đồng thời là chi phí tạo công thức và chi
+phí tìm nghiệm trên công thức đó. PySAT cung cấp giao diện gọi SAT
+solver \cite{pysat}; các mã hóa được xây dựng tường minh để đối chiếu
+công thức, xuất CNF và kiểm tra kích thước mô hình.
+
+Nghiên cứu tập trung vào ba câu hỏi: mỗi mã hóa làm thay đổi kích thước
+CNF ra sao; thay đổi đó liên hệ như thế nào với thời gian giải khi tăng
+kích thước bàn cờ; và hiệu năng SAT so với mô hình CP và MIP tương ứng
+thay đổi như thế nào. Để trả lời, báo cáo sử dụng một mô hình N-Queens
+thống nhất, chứng minh tính đúng của các mã hóa và kiểm tra độc lập
+nghiệm trả về. Các mô hình đối chứng được xây dựng cho CP-SAT, CPLEX
+CP, CPLEX MIP và Gurobi. Cách tổ chức này gắn phân tích lý thuyết với
+một quy trình thực nghiệm có thể tái lập.
+
+\section{Cơ sở bài toán và mã hóa SAT}
+\label{sec:theory-background}
+
+\subsection{Phạm vi bài toán N-Queens}
+
+Xét bàn cờ trống với $N\geq 1$, các chỉ số hàng và cột thuộc
+$\{0,\ldots,N-1\}$. Một nghiệm được lưu dưới dạng
+$q=(q_0,\ldots,q_{N-1})$, trong đó $q_r$ là cột của hậu ở hàng $r$.
+Các điều kiện hợp lệ là
+\begin{align}
+0\leq q_r<N &\qquad &&0\leq r<N, \label{eq:th-domain}\\
+q_r\neq q_t &\qquad &&0\leq r<t<N, \label{eq:th-columns}\\
+|q_r-q_t|\neq |r-t| &\qquad &&0\leq r<t<N. \label{eq:th-diagonal}
+\end{align}
+Biểu diễn này đã đặt đúng một hậu trên mỗi hàng. Điều kiện
+\eqref{eq:th-columns} loại xung đột theo cột; điều kiện
+\eqref{eq:th-diagonal} loại xung đột theo hai hướng đường chéo.
+
+Phạm vi thực nghiệm là tìm \emph{một nghiệm} trên bàn trống hoặc kết
+luận không tồn tại nghiệm. Biến thể \emph{N-Queens Completion} có thêm
+các hậu cố định trong đầu vào, còn bài toán đếm yêu cầu xác định số
+lượng tất cả nghiệm. Các nhiệm vụ này có phạm vi đánh giá khác nhau.
+Trong báo cáo, tính đầy đủ NP (\emph{NP-completeness}) của SAT tổng
+quát không được dùng làm phát biểu độ phức tạp cho N-Queens trên bàn trống.
+
+\subsection{SAT và ràng buộc lực lượng}
+
+Một biến Boolean nhận giá trị Đúng hoặc Sai. Một \emph{literal} là biến
+hoặc phủ định của biến; một \emph{clause}, gọi là mệnh đề tuyển trong báo
+cáo này, là phép OR của các literal. Công thức CNF là phép AND của các
+clause. Chẳng hạn,
+\begin{equation}
+ (\neg x_1\lor x_2)\land(x_1\lor x_3)\land(\neg x_2\lor\neg x_3)
+\end{equation}
+là một công thức CNF. SAT (\emph{Boolean satisfiability}) hỏi có tồn tại
+phép gán làm công thức đúng hay không. Kết quả SAT đi kèm một mô hình
+thỏa mãn; UNSAT là kết luận không có phép gán thỏa mãn. Hết thời gian
+không đồng nghĩa với UNSAT.
+
+Với nhóm biến $X=(x_1,\ldots,x_m)$, ba ràng buộc lực lượng
+(\emph{cardinality constraints}) được sử dụng là
+\begin{align}
+\operatorname{ALO}(X)&:\quad \sum_{i=1}^{m}x_i\geq 1,
+&\operatorname{ALO}(X)&=\bigvee_{i=1}^{m}x_i,\label{eq:th-alo}\\
+\operatorname{AMO}(X)&:\quad \sum_{i=1}^{m}x_i\leq 1,
+&\operatorname{EXO}(X)&=\operatorname{ALO}(X)\land\operatorname{AMO}(X).
+\label{eq:th-exo}
+\end{align}
+ALO (\emph{at least one}) nghĩa là ít nhất một biến đúng; AMO
+(\emph{at most one}) nghĩa là nhiều nhất một biến đúng; EXO
+(\emph{exactly one}) nghĩa là đúng một biến đúng. Trong tổng, giá trị Đúng
+được hiểu là 1 và Sai là 0. ALO được biểu diễn bằng một clause trực tiếp.
+Phần cần lựa chọn phương pháp mã hóa chủ yếu là AMO \cite{module3}.
+
+Một mã hóa AMO có thể thêm tập biến phụ $Y$. Tiêu chuẩn tính đúng là
+\begin{equation}
+ \operatorname{AMO}(X)\quad\Longleftrightarrow\quad
+ \exists Y\; E(X,Y),
+ \label{eq:th-projection}
+\end{equation}
+nghĩa là mỗi phép gán hợp lệ trên biến gốc có ít nhất một cách mở rộng sang
+biến phụ, và không phép gán không hợp lệ nào có cách mở rộng như vậy.
+Đây là tính đồng khả thỏa dưới phép chiếu lên biến gốc
+(\emph{equisatisfiability under projection}). Biến phụ không nhất thiết
+có một giá trị duy nhất. Điều này đặc biệt quan trọng khi diễn giải các
+biến trong binary và sequential counter.
+
+\section{Phương pháp SAT cho N-Queens}
+\label{sec:theory-method}
+
+\subsection{Biến và ràng buộc bàn cờ}
+
+Đặt $x_{r,c}$ đúng khi và chỉ khi có một hậu tại ô $(r,c)$. Biến ô được
+gán số nguyên dương
+\begin{equation}
+ \operatorname{id}(r,c)=rN+c+1.
+ \label{eq:th-id}
+\end{equation}
+Như vậy $N^2$ biến đầu là biến bàn cờ, còn biến phụ được cấp phát liên tục
+từ $N^2+1$. Mỗi lời gọi bộ mã hóa AMO nhận tập biến phụ riêng; việc dùng
+chung bộ cấp số bảo đảm không trùng biến giữa các hàng, cột và đường chéo.
+
+Các nhóm biến được xác định bởi
+\begin{align}
+ R_r &= \{x_{r,c}:0\leq c<N\},
+ &C_c &= \{x_{r,c}:0\leq r<N\},\\
+ D^-_d &= \{x_{r,c}:r-c=d\},
+ &D^+_s &= \{x_{r,c}:r+c=s\}.
+\end{align}
+Trong hai tập đường chéo, các ô luôn thỏa $0\leq r,c<N$;
+$1-N\leq d\leq N-1$ và $0\leq s\leq 2N-2$.
+Công thức bàn cờ trước khi thay AMO bằng CNF là
+\begin{equation}
+\begin{split}
+ F_N={}&\bigwedge_{r=0}^{N-1}\operatorname{EXO}(R_r)
+ \land\bigwedge_{c=0}^{N-1}\operatorname{EXO}(C_c)\\
+ &\land\bigwedge_{d=1-N}^{N-1}\operatorname{AMO}(D^-_d)
+ \land\bigwedge_{s=0}^{2N-2}\operatorname{AMO}(D^+_s).
+\end{split}
+\label{eq:th-board}
+\end{equation}
+Chỉ hàng và cột có ALO; các đường chéo chỉ có AMO. AMO trên nhóm có
+không quá một phần tử luôn đúng nên không sinh clause. Mặc dù ALO cột có
+thể suy ra từ EXO hàng và AMO cột, cài đặt vẫn giữ nó trong cả năm
+phương án để các phương án dùng cùng mô hình cấu trúc. Không phương án
+nào được bổ sung ràng buộc phá đối xứng viết tay.
+
+\subsection{Mã hóa pairwise}
+
+Pairwise, còn gọi là binomial, cấm mọi cặp biến cùng đúng:
+\begin{equation}
+ E_{\mathrm{pw}}(X)=
+ \bigwedge_{1\leq i<j\leq m}(\neg x_i\lor\neg x_j).
+ \label{eq:th-pairwise}
+\end{equation}
+Phương án này không cần biến phụ và tạo $\binom{m}{2}$ clause.
+Nếu có hai biến đúng thì clause của cặp đó sai. Ngược lại, nếu có
+nhiều nhất một biến đúng, mọi cặp đều chứa ít nhất một biến sai nên mọi
+clause đều đúng. Vì vậy \eqref{eq:th-pairwise} biểu diễn chính xác AMO.
+Ưu điểm là công thức đơn giản; hạn chế là số clause tăng bậc hai theo
+kích thước một nhóm.
+
+\subsection{Mã hóa binary}
+
+Đặt $k=\lceil\log_2m\rceil$ và thêm $k$ biến phụ $b_0,\ldots,b_{k-1}$.
+Biến $x_i$ được gắn mã nhị phân của $i-1$, với bit thấp nhất được xét
+trước, đúng theo thứ tự trong chương trình. Đặt $\ell_{i,j}=b_j$ nếu
+bit $j$ của mã bằng 1, và $\ell_{i,j}=\neg b_j$ nếu bit bằng 0. Mã hóa là
+\begin{equation}
+ E_{\mathrm{bin}}(X,b)=
+ \bigwedge_{i=1}^{m}\bigwedge_{j=0}^{k-1}(\neg x_i\lor\ell_{i,j}).
+ \label{eq:th-binary}
+\end{equation}
+Mỗi biến đúng ép các bit phụ nhận đúng mã của nó. Hai biến phân biệt có
+mã khác nhau tại ít nhất một bit, nên không thể cùng đúng. Nếu chỉ có
+$x_i$ đúng, chọn các bit theo mã của $i-1$; nếu tất cả biến gốc sai, chọn
+các bit bất kỳ. Hai chiều của \eqref{eq:th-projection} vì thế được bảo đảm.
+
+Binary tạo $k$ biến phụ và $mk$ clause. Các liên kết chỉ có chiều
+$x_i\rightarrow\operatorname{code}(i-1)$; không ép chiều ngược.
+ALO, khi cần, được thêm trực tiếp trên các biến gốc. Cách này vẫn đúng
+khi $m$ không phải lũy thừa của 2 và một số mã bit không đại diện cho
+biến gốc nào.
+
+\subsection{Mã hóa sequential counter}
+
+Sequential counter, tức bộ đếm tuần tự, dùng $m-1$ biến phụ
+$s_1,\ldots,s_{m-1}$ theo dạng AMO của Sinz \cite{sinz}. Cài đặt sử dụng
+đúng các clause sau với mọi $m\geq2$:
+\begin{align}
+ &\neg x_1\lor s_1,\label{eq:th-seq-first}\\
+ &\neg x_i\lor s_i &&2\leq i\leq m-1,\label{eq:th-seq-set}\\
+ &\neg s_{i-1}\lor s_i &&2\leq i\leq m-1,\label{eq:th-seq-prop}\\
+ &\neg x_i\lor\neg s_{i-1} &&2\leq i\leq m-1,\label{eq:th-seq-stop}\\
+ &\neg x_m\lor\neg s_{m-1}.\label{eq:th-seq-last}
+\end{align}
+Các biểu thức trong miền $2\leq i\leq m-1$ được bỏ qua khi $m=2$.
+Do đó số biến phụ luôn là $m-1$ và số clause là $3m-4$;
+chương trình không thay các nhóm nhỏ bằng pairwise trong phương án này.
+
+Để chứng minh chiều loại trừ nghiệm sai, giả sử $x_i$ và $x_j$ cùng
+đúng với $i<j$. Biến $x_i$ làm $s_i$ đúng; các clause truyền trạng thái
+làm $s_{j-1}$ đúng. Clause \eqref{eq:th-seq-stop} hoặc
+\eqref{eq:th-seq-last} khi đó cấm $x_j$, gây mâu thuẫn. Với chiều còn
+lại, khi nhóm có nhiều nhất một biến đúng, đặt
+$s_i=\bigvee_{t=1}^{i}x_t$. Phép gán này thỏa mọi clause trên.
+Đó là một cách mở rộng hợp lệ; công thức không yêu cầu mọi mô hình
+phải buộc $s_i$ tương đương hai chiều với OR của tiền tố.
+
+\subsection{Mã hóa commander đệ quy}
+
+Commander sử dụng biến đại diện nhóm để đưa AMO trên nhiều biến về AMO
+trên các nhóm nhỏ. Với $m\leq3$, chương trình dùng pairwise. Với $m>3$,
+chia dãy biến theo thứ tự thành $g=\lceil m/3\rceil$ nhóm $G_1,\ldots,G_g$;
+mỗi nhóm có tối đa ba phần tử. Thêm commander $c_i$ cho nhóm $G_i$ và
+các ràng buộc
+\begin{align}
+ &\operatorname{AMO}_{\mathrm{pw}}(G_i) &&1\leq i\leq g,\\
+ &\neg x\lor c_i &&x\in G_i,\label{eq:th-comm-up}\\
+ &\neg c_i\lor\bigvee_{x\in G_i}x &&1\leq i\leq g.
+ \label{eq:th-comm-down}
+\end{align}
+Cuối cùng, gọi đệ quy cùng mã hóa commander cho $(c_1,\ldots,c_g)$.
+Hai nhóm clause \eqref{eq:th-comm-up}--\eqref{eq:th-comm-down} biểu
+diễn $c_i\leftrightarrow\bigvee_{x\in G_i}x$, kể cả nhóm cuối chỉ có
+một hoặc hai biến. Không thêm ALO trên các commander.
+
+Nếu hai biến cùng nhóm đúng, pairwise nội bộ loại chúng. Nếu chúng ở
+hai nhóm khác nhau, hai commander tương ứng cùng đúng và bị AMO ở tầng
+trên loại. Lập luận này quy nạp đến trường hợp cơ sở. Ngược lại, nếu nhóm
+gốc có nhiều nhất một biến đúng, gán mỗi commander bằng OR của nhóm nó;
+tầng tiếp theo cũng có nhiều nhất một commander đúng. Lặp lại phép gán
+này tới gốc sẽ thỏa toàn bộ clauses, chứng minh tính đầy đủ.
+
+Gọi $a_m$ và $c_m$ lần lượt là số biến phụ và clause của một AMO
+commander. Với $m\leq3$, $a_m=0$ và $c_m=\binom{m}{2}$.
+Với $m>3$, đặt $t_i=|G_i|$ thì
+\begin{align}
+ a_m&=g+a_g,\\
+ c_m&=\sum_{i=1}^{g}\binom{t_i}{2}+m+g+c_g.
+ \label{eq:th-comm-count}
+\end{align}
+Vì kích thước nhóm được giữ ở mức ba và số commander giảm xấp xỉ ba
+lần qua mỗi tầng, tổng chi phí các tầng thuộc $O(m)$. Ngay tầng đầu
+đã có $\lceil m/3\rceil$ biến phụ và $m$ clause liên kết, nên cả hai
+đại lượng thực tế thuộc $\Theta(m)$. Phân tích này áp dụng cho biến thể
+đệ quy đang cài đặt; biến thể một tầng với nhóm cỡ căn bậc hai có truy
+hồi và kích thước khác.
+
+\subsection{Mã hóa product hai chiều}
+
+Với $m\leq3$, product trong chương trình dùng pairwise để tránh chi phí
+biến phụ ở nhóm nhỏ. Với $m>3$, đặt
+\begin{equation}
+ p=\lceil\sqrt m\rceil,\qquad q=\left\lceil\frac{m}{p}\right\rceil.
+\end{equation}
+Gắn $x_i$ vào ô $\bigl(u(i),v(i)\bigr)$ của lưới $p\times q$, trong đó
+\begin{equation}
+ u(i)=\left\lfloor\frac{i-1}{q}\right\rfloor+1,
+ \qquad v(i)=((i-1)\bmod q)+1.
+\end{equation}
+Thêm biến chọn hàng $r_1,\ldots,r_p$ và biến chọn cột $d_1,\ldots,d_q$.
+Mỗi biến gốc liên kết tới đúng hai biến chọn:
+\begin{equation}
+ (\neg x_i\lor r_{u(i)})\land(\neg x_i\lor d_{v(i)}),
+ \qquad 1\leq i\leq m.
+ \label{eq:th-product-links}
+\end{equation}
+Hai tập biến chọn được ràng buộc bởi AMO pairwise. Nếu hai biến gốc khác
+nhau cùng đúng, vị trí của chúng khác hàng hoặc khác cột trong lưới;
+khi đó AMO tương ứng bị vi phạm. Nếu có nhiều nhất một biến gốc đúng,
+có thể chọn chỉ hàng và cột của biến đó; nếu không có biến nào đúng,
+chọn tất cả biến phụ sai. Do đó mã hóa thỏa \eqref{eq:th-projection}.
+
+Với $m>3$, số biến phụ và clause là
+\begin{equation}
+ a_m=p+q,\qquad c_m=2m+\binom p2+\binom q2.
+ \label{eq:th-product-count}
+\end{equation}
+Do lưới được chọn cân bằng, $a_m=\Theta(\sqrt m)$ và $c_m=\Theta(m)$.
+Khi $pq>m$, một số ô không gắn biến gốc; chúng không gây vấn đề vì
+chương trình chỉ thêm ALO trên biến gốc khi cần EXO. Không thay ALO này
+bằng ALO của các biến chọn, vốn có thể cho phép chọn một ô trống.
+
+\subsection{Tính đúng của mô hình và quy trình giải}
+
+\noindent\textbf{Mệnh đề 1.}
+Với mỗi $N\geq1$ và mỗi mã hóa AMO nêu trên, công thức CNF sinh từ
+\eqref{eq:th-board} khả thỏa khi và chỉ khi tồn tại một lời giải N-Queens.
+
+\noindent\emph{Chứng minh.}
+Theo các lập luận ở từng mã hóa, mọi mô hình của CNF đều thỏa AMO trên
+tập biến gốc của từng nhóm. ALO và AMO hàng buộc đúng một hậu trên mỗi
+hàng, tức có tổng cộng $N$ hậu. Ràng buộc cột và hai họ đường chéo
+cấm mọi cặp hậu tấn công nhau, nên mô hình giải mã là nghiệm hợp lệ.
+Đây là tính đúng đắn theo chiều từ mã hóa sang bài toán (\emph{soundness}).
+Ngược lại, lấy một bàn cờ hợp lệ và đặt các biến ô có hậu là đúng.
+Các nhóm hàng, cột, đường chéo thỏa điều kiện tương ứng. Mỗi nhóm có
+ít nhất một phép mở rộng sang biến phụ theo
+\eqref{eq:th-projection}. Các tập biến phụ không giao nhau nên có thể
+ghép các phép mở rộng thành một mô hình của toàn bộ CNF. Đây là tính
+đầy đủ (\emph{completeness}).\hfill$\square$
+
+Quy trình cài đặt được tóm tắt như sau:
+\begin{enumerate}
+ \item Kiểm tra $N$ là số nguyên dương và chọn một trong năm mã hóa.
+ \item Cấp $N^2$ biến ô; duyệt các hàng và cột, thêm một ALO và một
+       AMO cho mỗi nhóm; sau đó thêm AMO cho hai họ đường chéo.
+ \item Nạp CNF vào SAT solver thông qua PySAT \cite{pysat} và gọi giải.
+ \item Nếu SAT, chỉ lấy các biến dương có số từ 1 tới $N^2$, giải mã
+       thành véc-tơ cột $q$ và kiểm tra bàn cờ độc lập với solver.
+ \item Lưu trạng thái, nghiệm nếu có, số biến, số clause và các giai
+       đoạn thời gian; phân biệt UNSAT với hết thời gian hoặc lỗi công cụ.
+\end{enumerate}
+Kiểm tra độc lập yêu cầu $q$ có đúng $N$ phần tử trong miền hợp lệ và
+ba tập $\{q_r\}$, $\{r-q_r\}$, $\{r+q_r\}$ đều có lực lượng $N$.
+Nếu solver trả SAT nhưng phép kiểm tra không đạt, chương trình báo lỗi
+thay vì ghi nhận thành công. CNF cũng có thể xuất theo định dạng DIMACS,
+trong đó mỗi clause kết thúc bằng 0, để dùng với một bộ giải bên ngoài.
+
+\subsection{Kích thước công thức trên toàn bàn cờ}
+
+Với $N\geq2$, sau khi bỏ các nhóm đường chéo một phần tử, có $6N-6$
+nhóm AMO và tổng độ dài các nhóm là $4N^2-4$. Có $2N$ clause ALO.
+Mỗi họ đường chéo có các độ dài $1,2,\ldots,N-1,N,N-1,\ldots,2,1$.
+Vì vậy, nếu $a_m,c_m$ là số biến phụ và clause cho một AMO kích thước
+$m$, tổng số biến và clause của cài đặt là
+\begin{align}
+ V(N)&=N^2+(2N+2)a_N+4\sum_{m=2}^{N-1}a_m,\label{eq:th-general-v}\\
+ C(N)&=2N+(2N+2)c_N+4\sum_{m=2}^{N-1}c_m.\label{eq:th-general-c}
+\end{align}
+Các công thức này tính clauses trước khi bộ giải tiền xử lý; không khẳng
+định rằng số clauses còn hoạt động bên trong solver giữ nguyên.
+
+Đối với pairwise, thay $a_m=0$ và $c_m=\binom m2$ thu được
+\begin{equation}
+ V_{\mathrm{pw}}(N)=N^2,\qquad
+ C_{\mathrm{pw}}(N)=\frac{N(N-1)(5N-1)}{3}+2N.
+ \label{eq:th-pw-board-count}
+\end{equation}
+Đối với sequential counter đang cài đặt, không rút gọn nhóm kích thước
+hai hoặc ba, thay $a_m=m-1$ và $c_m=3m-4$ thu được
+\begin{align}
+ V_{\mathrm{seq}}(N)&=5N^2-6N+2,\\
+ C_{\mathrm{seq}}(N)&=12(N-1)^2+2N.
+ \label{eq:th-seq-board-count}
+\end{align}
+Ví dụ, ở $N=4$, pairwise tạo 16 biến và 84 clauses; sequential tạo
+58 biến và 116 clauses. Đây là phép đếm từ định nghĩa, không phải số
+đo thời gian. Nó cho thấy mã hóa tăng trưởng tuyến tính trên mỗi nhóm
+không nhất thiết có ít clauses hơn ở nhóm nhỏ.
+
+Binary dùng $a_m=\lceil\log_2m\rceil$ và
+$c_m=m\lceil\log_2m\rceil$ trong
+\eqref{eq:th-general-v}--\eqref{eq:th-general-c}. Commander dùng truy
+hồi \eqref{eq:th-comm-count}. Product dùng
+\eqref{eq:th-product-count} khi $m>3$ và pairwise khi $m\leq3$.
+Bảng~\ref{tab:th-growth} tổng hợp bậc tăng trưởng; số biến gốc $N^2$
+được tách khỏi số biến phụ để tránh nhầm lẫn.
+
+\begin{table}[htbp]
+ \centering
+ \caption{Bậc tăng trưởng của CNF theo đúng các biến thể đã cài đặt}
+ \label{tab:th-growth}
+ \begin{tabular}{lll}
+  \hline
+  Mã hóa & Biến phụ toàn bàn & Clauses toàn bàn\\
+  \hline
+  Pairwise & $0$ & $\Theta(N^3)$\\
+  Binary & $\Theta(N\log N)$ & $\Theta(N^2\log N)$\\
+  Sequential & $\Theta(N^2)$ & $\Theta(N^2)$\\
+  Commander đệ quy & $\Theta(N^2)$ & $\Theta(N^2)$\\
+  Product hai chiều & $\Theta(N^{3/2})$ & $\Theta(N^2)$\\
+  \hline
+ \end{tabular}
+\end{table}
+
+Trường hợp $N=1$ được xử lý riêng: chỉ có một biến ô, không có
+clause AMO, và chương trình giữ hai clause ALO đơn vị trùng nhau của
+hàng và cột. Số lượng là một biến, hai clauses. Đối với $N\geq2$,
+các công thức trên khớp với cách duyệt nhóm của chương trình. So sánh
+thực nghiệm cần dùng số đếm đã sinh thực tế, đồng thời dùng công thức
+để phát hiện sai khác trong cài đặt.
+
+\section{Các mô hình đối chứng CP và MIP}
+\label{sec:theory-baselines}
+
+\subsection{Mô hình CP và CP-SAT}
+
+Lập trình ràng buộc (\emph{constraint programming}, CP) mô tả trực tiếp
+miền giá trị và các quan hệ cần thỏa. Chương trình dùng biến nguyên
+$q_r\in\{0,\ldots,N-1\}$ và ba ràng buộc
+\begin{align}
+ &\operatorname{AllDifferent}(q_0,\ldots,q_{N-1}),\label{eq:th-cp-column}\\
+ &\operatorname{AllDifferent}(q_0+0,\ldots,q_{N-1}+N-1),\\
+ &\operatorname{AllDifferent}(q_0-0,\ldots,q_{N-1}-(N-1)).
+ \label{eq:th-cp-diagonal}
+\end{align}
+\emph{AllDifferent} yêu cầu các biểu thức trong danh sách nhận các
+giá trị đôi một khác nhau. Hai hậu chung đường chéo khi và chỉ khi
+$q_r+r=q_t+t$ hoặc $q_r-r=q_t-t$, nên ba ràng buộc này tương đương
+\eqref{eq:th-columns}--\eqref{eq:th-diagonal}. Mô hình có $N$ biến
+nguyên ở tầng biểu diễn của chương trình; số biến nội bộ sau chuyển
+đổi của solver là đại lượng khác.
+
+Cùng mô hình được xây dựng cho OR-Tools CP-SAT \cite{ortools} và
+IBM CP Optimizer thông qua DOcplex CP \cite{ibm}. Đây là hai bộ giải
+khác nhau; việc chạy CP-SAT không được ghi thành kết quả CPLEX CP.
+Không bổ sung mục tiêu tối ưu, vì nhiệm vụ chỉ cần một nghiệm hợp lệ.
+Các hàm đối chứng đặt một luồng tìm kiếm và hạt giống ngẫu nhiên
+(\emph{random seed}) bằng 42; các cơ chế tiền xử lý và xử lý đối xứng
+nội bộ khác giữ theo mặc định của solver.
+
+\subsection{Mô hình nguyên nhị phân}
+
+Quy hoạch nguyên tuyến tính (\emph{integer linear programming}, ILP)
+được dùng dưới dạng mô hình nhị phân và giải bằng CPLEX MIP
+\cite{ibm} hoặc Gurobi \cite{gurobi}. MIP
+(\emph{mixed-integer programming}) là tên họ bộ giải; mô hình cụ thể
+ở đây chỉ cần các biến nhị phân $z_{r,c}\in\{0,1\}$:
+\begin{align}
+ \min\quad &0,\\
+ \text{s.t.}\quad
+ &\sum_{c=0}^{N-1}z_{r,c}=1 &&0\leq r<N,\label{eq:th-mip-row}\\
+ &\sum_{r=0}^{N-1}z_{r,c}=1 &&0\leq c<N,\label{eq:th-mip-column}\\
+ &\sum_{r-c=d}z_{r,c}\leq1 &&|D^-_d|\geq2,\\
+ &\sum_{r+c=s}z_{r,c}\leq1 &&|D^+_s|\geq2.
+ \label{eq:th-mip-diag}
+\end{align}
+Trong các tổng đường chéo, chỉ lấy các ô thuộc bàn cờ. Mô hình có
+$N^2$ biến nhị phân và, với $N\geq2$, $6N-6$ ràng buộc tuyến tính
+không kể khai báo miền. Các phương trình hàng/cột bảo đảm đúng $N$
+hậu; bất đẳng thức đường chéo loại các cặp tấn công. Vì vậy mô hình
+biểu diễn cùng tập bàn cờ hợp lệ như \eqref{eq:th-board}. Mục tiêu
+hằng 0 cho phép dùng giao diện tối ưu nhưng không làm thay đổi nhiệm
+vụ khả thi (\emph{feasibility problem}).
+
+\subsection{Điều kiện so sánh và diễn giải trạng thái}
+
+Các bộ giải đều dừng ở một lời giải hợp lệ hoặc một kết luận không
+khả thi, với giới hạn thời gian được cấu hình trong quy trình thực
+nghiệm. Một nghiệm được trả về từ CP hay MIP phải qua kiểm tra hình
+học độc lập giống nghiệm SAT. Đối với MIP, chương trình đọc các giá
+trị lớn hơn $0.5$ là ô có hậu rồi kiểm tra lại toàn bộ bàn cờ; kết
+quả không vượt qua kiểm tra không được tính là nghiệm hợp lệ.
+
+Trạng thái bản địa của công cụ được giữ lại và ánh xạ sang các nhóm
+chung: SAT khi có nghiệm đã kiểm tra, UNSAT khi công cụ kết luận không
+khả thi, TIMEOUT khi chưa có kết luận trong giới hạn, UNAVAILABLE khi
+thiếu công cụ, LICENSE\_LIMIT khi bị giới hạn giấy phép, và ERROR cho
+lỗi khác. Đặc biệt, thư viện mô hình DOcplex được cài đặt không có
+nghĩa là bộ thực thi CP Optimizer đã sẵn sàng. Các lần chạy thiếu công
+cụ hoặc bị chặn bởi giấy phép phải được công bố riêng, không xem là
+UNSAT hay giả lập bằng một bộ giải khác.
+
+Số biến và ràng buộc của CP, MIP và CNF được xác định ở những tầng
+biểu diễn khác nhau. So sánh hiệu năng vì thế dựa trên trạng thái đã
+xác nhận, chi phí xây dựng, chi phí giải và tổng thời gian theo phạm
+vi đo đã công bố. Phần thực nghiệm trình bày các chỉ số này cùng
+giới hạn tài nguyên và cấu hình công cụ để xác định phạm vi áp dụng
+của kết luận.
+
+% Gọi \TheorySourceAppendix sau \appendix trong tệp báo cáo chính.
+% Định nghĩa ở đây chỉ giữ nội dung nguồn của fragment; không đổi bộ đếm
+% section trước khi main.tex chèn thực nghiệm và kết luận.
+\newcommand{\TheorySourceAppendix}{%
+\section{Phạm vi và đối chiếu tài liệu nguồn}
+\label{app:theory-sources}
+
+\subsection{Phạm vi tài liệu đã đọc}
+
+Mục này tóm tắt cách sử dụng các tài liệu đầu vào. Phạm vi đã đọc là
+toàn bộ phần văn bản được trích xuất theo trang PDF của năm tài liệu
+dưới đây; số trang tính từ trang đầu tệp, bao gồm bìa. Hình được đối
+chiếu qua nhãn và chú thích trong bản trích, không số hóa đường cong
+trong hình thành dữ liệu thực nghiệm.
+\begin{enumerate}
+ \item \emph{Assignment 1 -- requirements.pdf}, trang 1/1:
+       xác định đề tài, yêu cầu cài đặt, đối chứng và công bố dữ liệu.
+ \item \emph{An optimized SAT approach solving N-Queens problem.pdf},
+       trang 1--41/41: tham khảo mô hình bàn cờ, năm mã hóa AMO và
+       cách tổ chức thực nghiệm \cite{bach2024}.
+ \item \emph{Mau xay dung bao cao BTL so 1 và BTL so 2.pdf},
+       trang 1--32/32: tham khảo bố cục bài báo, trình bày phương pháp,
+       thực nghiệm, kết luận, phụ lục và Data Availability.
+ \item \emph{Module3 AMO ALO Encoding}, trang 1--17/17:
+       đối chiếu định nghĩa và cách xây dựng các mã hóa AMO/ALO
+       \cite{module3}.
+ \item \emph{Module2 SAT Encoding}, trang 1--27/27:
+       tham khảo CNF, biến phụ và tính đồng khả thỏa.
+\end{enumerate}
+Bảng thực nghiệm trong các tài liệu nguồn được xem là kết quả công
+bố của tài liệu tương ứng. Dữ liệu trong phần thực nghiệm của báo
+cáo được lấy từ các lần chạy của chương trình đi kèm.
+
+\subsection{Đối chiếu công thức}
+
+Các công thức được viết lại nhất quán với cài đặt và chứng minh trong
+Mục~\ref{sec:theory-method}. Đối với \cite{bach2024}, ví dụ ALO ở
+trang PDF 15--16 được chuẩn hóa thành một clause cho từng hàng hoặc
+cột; các đường chéo chỉ có AMO. Clause cuối của sequential ở trang
+PDF 32--33 dùng dấu phủ định của biến ô, còn các liên kết product ở
+trang PDF 26, 34 được thống nhất chỉ số biến chọn. Việc đối chiếu này
+nhằm làm rõ phần trình bày công thức trong nguồn; mã thực nghiệm của
+tác giả nguồn không thuộc phần được kiểm tra.
+}

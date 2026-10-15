@@ -1,0 +1,8 @@
+{
+  "pages": 12,
+  "visual_review": "All 12 pages rendered and inspected, no clipping, overlap or missing glyphs",
+  "experiments": 162,
+  "verified_sat_solutions": 117,
+  "tests": "8 SAT tests and 7 comparison tests passed",
+  "pdf_sha256": "1753ddd507e2960aa378afb298b7956b6997455bf4f74cb524787054f07dd130"
+}

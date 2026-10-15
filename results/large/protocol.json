@@ -1,0 +1,21 @@
+{
+  "suite": "large",
+  "limit_seconds": 30.0,
+  "startup_limit_seconds": 120,
+  "methods": [
+    "pairwise",
+    "binary",
+    "sequential",
+    "commander",
+    "product",
+    "cp_sat",
+    "cplex_mip",
+    "gurobi",
+    "cplex_cp"
+  ],
+  "shuffle_seed": 24021650,
+  "pairwise_clause_cap": 5000000,
+  "tasks": 27,
+  "concurrency": 1,
+  "timing": "elapsed_seconds measures build, solver setup, solve, decode and validation; excludes imports"
+}

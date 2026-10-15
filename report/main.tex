@@ -1,0 +1,255 @@
+\PassOptionsToPackage{table}{xcolor}
+% CAS loads legacy STIX math; XeTeX uses unicode-math below instead.
+\ifdefined\XeTeXversion
+\expandafter\def\csname ver@stix.sty\endcsname{2026/10/15}
+\fi
+\documentclass[a4paper,fleqn]{cas-sc}
+\ifdefined\XeTeXversion
+\usepackage{fontspec}
+\setmainfont{texgyretermes-regular.otf}[BoldFont=texgyretermes-bold.otf,ItalicFont=texgyretermes-italic.otf,BoldItalicFont=texgyretermes-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf,ItalicFont=texgyreheros-italic.otf]
+\setmonofont{texgyrecursor-regular.otf}
+\else
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\fi
+\usepackage[vietnamese]{babel}
+\usepackage[numbers]{natbib}
+\usepackage{amsmath,amssymb,booktabs,longtable,tabularx,array}
+\usepackage{graphicx,url,xcolor}
+\usepackage{enumitem}
+\ifdefined\XeTeXversion
+\usepackage{unicode-math}
+\setmathfont{texgyretermes-math.otf}
+\providecommand{\square}{\mdlgwhtsquare}
+\fi
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=2pt,topsep=4pt}
+\newsavebox{\btlTableBox}
+\newcommand{\FitTableWidth}[1]{%
+\sbox{\btlTableBox}{#1}%
+\ifdim\wd\btlTableBox>\linewidth
+\resizebox{\linewidth}{!}{\usebox{\btlTableBox}}%
+\else\usebox{\btlTableBox}\fi}
+\renewcommand{\printorcid}{}
+\ExplSyntaxOn
+\cs_set:Npn \__first_footerline:
+ {\small\sffamily Nguyễn~Duy~Trường:~\rmfamily\itshape Báo~cáo~bài~tập~lớn~số~1}
+\ExplSyntaxOff
+\graphicspath{{generated/}}
+\begin{document}
+\shorttitle{Mã hóa SAT cho N Queens}
+\shortauthors{Nguyễn Duy Trường}
+\title[mode=title]{Mã hóa SAT và so sánh các phương pháp giải chính xác cho bài toán N Queens}
+\author[1]{Nguyễn Duy Trường}
+\affiliation[1]{organization={Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội},
+city={Hà Nội},country={Việt Nam}}
+\begin{abstract}
+Báo cáo cài đặt và đánh giá năm mã hóa SAT cho bài toán N-Queens trên bàn cờ trống: pairwise, binary, sequential counter, commander đệ quy và product. Các mô hình dùng cùng ràng buộc hàng, cột, đường chéo; nghiệm được kiểm tra hình học độc lập. Tính đúng được đối chiếu qua 2555 phép gán AMO nhỏ, 60 trường hợp SAT/UNSAT và đếm nghiệm đến N=8. Tập chính gồm năm kích thước từ 8 đến 128, mỗi cấu hình lặp ba lần; tập mở rộng khảo sát N=256,512,1000 với hạn tổng 30 giây. Trên tập chính, SAT hoàn thành 63/75 lần chạy; binary nhanh hơn pairwise khoảng 3.69 lần ở N=64. Kết quả cho thấy giảm số clause không bảo đảm giảm thời gian giải, và không có encoding thắng trên mọi kích thước đã xét. Báo cáo đối chiếu với CP-SAT, CPLEX CP, CPLEX MIP và Gurobi trong miền giấy phép khả dụng, đồng thời công bố các giới hạn kích thước. Toàn bộ mã nguồn, dữ liệu đo và quy trình tái lập được cung cấp kèm báo cáo.
+\end{abstract}
+\begin{keywords}
+N Queens \sep SAT solving \sep CNF encoding \sep cardinality constraints \sep constraint programming
+\end{keywords}
+\maketitle
+\noindent\textbf{Bài tập lớn số 1.} Học phần Các vấn đề hiện đại trong KHMT,
+HK I năm học 2026--2027. Mã sinh viên 24021650. Lớp CS5.
+Email: \texttt{truong0816081519@gmail.com}.
+
+\input{theory.tex}
+
+\section{Thực nghiệm và thảo luận}
+\label{sec:experiments}
+
+\subsection{Thiết kế và môi trường thực nghiệm}
+
+Tất cả các phương pháp giải cùng bài toán tìm một nghiệm trên bàn cờ trống.
+Năm mã hóa SAT được kết hợp với Glucose3 qua PySAT. Bốn đối chứng là IBM CP Optimizer
+(CPLEX CP), CPLEX MIP, Gurobi và OR-Tools CP-SAT. Không cung cấp nghiệm khởi tạo
+và không thêm ràng buộc phá đối xứng bằng tay. Các cơ chế tiền xử lý và đối xứng
+của từng solver giữ mặc định. Vì các hệ thống có mô hình và cơ chế tìm kiếm khác nhau,
+đây là so sánh các cấu hình cài đặt cụ thể, không tách riêng đóng góp của từng cơ chế nội bộ.
+
+\input{generated/environment.tex}
+
+Tập chính gồm $N\in\{8,16,32,64,128\}$, mỗi cặp phương pháp và kích thước chạy
+ba lần trong tiến trình mới. Tập mở rộng gồm $N\in\{256,512,1000\}$, mỗi cặp
+chạy một lần để khảo sát khả năng mở rộng. Đây là các kích thước sinh có quy luật,
+không phải bộ dữ liệu ngẫu nhiên; mỗi $N$ tương ứng một bài toán. Các phép lặp đo
+độ ổn định của thời gian trên cùng bài toán, không tạo thêm instance độc lập.
+Thứ tự tác vụ được trộn với hạt giống 24021650 và tất cả tác vụ được chạy tuần tự.
+CP và MIP dùng một luồng tìm kiếm, seed 42; Glucose3 là bộ giải một luồng với cấu hình mặc định.
+
+Một lần chạy có giới hạn ngoài 30 giây từ trước khi tạo mô hình đến sau khi kiểm tra
+nghiệm. Giai đoạn khởi động Python và nạp thư viện có hạn riêng 120 giây,
+được lưu nhưng không cộng vào thời gian so sánh. Giao thức READY/GO bảo đảm tiến trình
+cha kích hoạt đồng hồ trước khi tiến trình con làm việc. Với CP/MIP, giới hạn tìm kiếm
+nội bộ cũng đặt 30 giây; giới hạn ngoài vẫn có thể dừng sớm hơn khi chi phí tạo mô hình lớn.
+Khi quá hạn, chương trình dừng cả cây tiến trình, kể cả CP Optimizer được gọi bên ngoài.
+
+Đại lượng chính $t_{\mathrm{all}}$ là \texttt{elapsed\_seconds}, gồm xây dựng mô hình,
+khởi tạo và nạp solver, giải, giải mã, kiểm tra nghiệm và trả kết quả.
+Nhật ký còn lưu $t_{\mathrm{build}}$, $t_{\mathrm{solve}}$, và riêng SAT có
+$t_{\mathrm{setup}}$. Các trường pha chỉ có ý nghĩa trong định nghĩa của backend;
+so sánh tổng thời gian dùng cùng $t_{\mathrm{all}}$. Dọn bộ nhớ cuối lời gọi cũng nằm
+trong phép đo tổng nếu diễn ra trước khi hàm trả về.
+
+Trước thực nghiệm, pairwise được đặt trần 5.000.000 clause để tránh chi phí bộ nhớ
+quá lớn. Các trường hợp vượt trần ghi \texttt{SKIPPED\_RESOURCE} với kích thước
+tính từ công thức, không gọi solver. Những mục này không được tính là TIMEOUT.
+Các giới hạn giấy phép CPLEX/Gurobi được lưu thành \texttt{LICENSE\_LIMIT};
+việc cài đủ API không loại bỏ giới hạn kích thước của bản đi kèm \cite{ibmlimits,gurobilimits}.
+
+Trong tập chính, bảng thời gian dùng trung vị (\emph{median}) của ba lần chạy thành công;
+khoảng nhỏ nhất--lớn nhất được lưu trong \texttt{results/summary.csv}.
+Nếu không đủ ba nghiệm hợp lệ, bảng ghi rõ số lần thành công
+và trạng thái, không tính trung vị chung từ thời gian thành công và giá trị 30.
+TIMEOUT là quan sát bị kiểm duyệt (\emph{censored observation}): chỉ biết tác vụ chưa
+hoàn thành trong hạn, không biết thời gian cần thiết nếu tiếp tục.
+
+\subsection{Kiểm tra tính đúng}
+
+Bộ kiểm thử AMO duyệt toàn bộ $2^m$ phép gán trên biến gốc với $m=0,\ldots,8$
+cho cả năm mã hóa. Với từng phép gán, SAT solver chỉ được tự chọn biến phụ;
+kết quả phải tương đương với điều kiện tổng biến gốc không vượt 1.
+Tổng cộng có $5\sum_{m=0}^{8}2^m=2555$ phép kiểm tra tính đồng khả thỏa dưới phép chiếu.
+Thử nghiệm này kiểm tra cả trường hợp toàn bộ biến gốc Sai, vốn quan trọng với AMO đường chéo.
+
+Kiểm thử bàn cờ nhỏ giải $N=1,\ldots,12$ trên năm mã hóa, xác nhận $N=2,3$ UNSAT
+và các trường hợp còn lại SAT. Một phép kiểm thử mạnh hơn liệt kê nghiệm cho
+$N=1,\ldots,8$ và đối chiếu số lượng $1,0,0,2,10,4,40,92$.
+Mỗi lần chặn nghiệm chỉ dùng biến bàn cờ để không đếm lặp các phép gán biến phụ.
+Bộ kiểm tra hình học độc lập từ chối các bàn sai miền, trùng cột hoặc trùng đường chéo;
+kiểm thử xuất và đọc lại DIMACS kiểm tra tính bảo toàn của tệp CNF.
+\input{generated/test_results.tex}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.48\linewidth]{example_board.pdf}
+\caption{Một nghiệm $N=8$ lấy từ nhật ký thực nghiệm và kiểm tra độc lập.
+Mỗi hàng, cột và đường chéo có nhiều nhất một hậu; có đúng tám hậu.}
+\label{fig:board}
+\end{figure}
+
+\subsection{Kích thước công thức và ảnh hưởng của mã hóa}
+
+\input{generated/counts_table.tex}
+
+Các số liệu ở Bảng~\ref{tab:counts} được lấy bằng cách sinh CNF từ cùng mã nguồn
+được dùng khi chạy solver. Số biến gồm cả biến bàn cờ và biến phụ; số clause là
+số trước tiền xử lý của solver. Pairwise không thêm biến phụ nhưng có tăng trưởng
+bậc ba theo $N$. Binary giảm số clause so với pairwise trên bàn lớn và dùng ít biến phụ.
+Sequential, commander đệ quy nhóm hằng và product có số clause toàn bàn cờ
+$\Theta(N^2)$ với các lựa chọn cụ thể trong báo cáo.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.88\linewidth]{clauses.pdf}
+\caption{Số clause trước tiền xử lý của năm mã hóa. Trục tung dùng thang logarit.
+Các điểm là số đếm CNF thực tế trên các kích thước được biểu diễn.}
+\label{fig:clauses}
+\end{figure}
+
+\input{generated/main_sat_table.tex}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{runtime.pdf}
+\caption{Thời gian tổng trung vị trên tập chính khi cả ba lần chạy đều thành công.
+Dấu hết hạn được đặt ở ngưỡng 30 giây để chỉ giới hạn quan sát, không phải thời gian hoàn thành.}
+\label{fig:runtime}
+\end{figure}
+
+\input{generated/sat_discussion.tex}
+\input{generated/phase_table.tex}
+
+\subsection{So sánh với CP và MIP}
+
+\input{generated/comparison_table.tex}
+\input{generated/comparison_discussion.tex}
+
+\subsection{Khả năng mở rộng và giới hạn nghiên cứu}
+
+\input{generated/large_table.tex}
+\input{generated/large_discussion.tex}
+
+Các hạn chế cần được giữ khi diễn giải kết quả. Thứ nhất, chỉ khảo sát bàn cờ trống
+và tìm một nghiệm; kết quả không mô tả độ khó của N-Queens Completion hay đếm nghiệm.
+Thứ hai, tập kích thước còn hữu hạn và cấu trúc nghiệm thay đổi theo $N$, nên thời gian
+không nhất thiết tăng đơn điệu. Thứ ba, ba phép lặp cùng một instance không cho phép
+suy rộng thống kê tới mọi bài toán SAT. Thứ tư, giới hạn giấy phép khiến tập so sánh
+chung với MIP nhỏ hơn tập SAT/CP; vì thế không dùng các ô bị chặn để khẳng định
+một solver chậm hơn. Thứ năm, môi trường máy cá nhân không được cô lập hoàn toàn
+khỏi tác vụ hệ thống, nên các chênh lệch rất nhỏ cần được diễn giải thận trọng.
+Cuối cùng, báo cáo không xuất chứng chỉ UNSAT để kiểm tra bằng công cụ chứng minh riêng;
+các kết luận UNSAT nhỏ được đối chiếu bằng nhiều mã hóa và bộ giải.
+
+\section{Kết luận}
+\input{generated/conclusion.tex}
+
+\section*{Data Availability}
+Mã nguồn, kiểm thử, cấu hình, nhật ký gốc, dữ liệu CSV, script tạo hình và nguồn LaTeX
+của bài tập được lưu tại
+\url{https://github.com/Duytruong2006/BTL1-NQueens-SAT}.
+Bộ bài làm cũng được đóng gói trong tệp \texttt{BTL1\_NguyenDuyTruong\_24021650.zip}.
+Repository ở chế độ riêng tư; chủ repository cấp quyền đọc cho giảng viên khi nộp bài.
+Các tệp PDF tài liệu môn học và bài báo tham khảo không được phân phối lại trong bộ mã nguồn.
+
+\appendix
+\TheorySourceAppendix
+
+\section{Tái lập và đối chiếu yêu cầu}
+Các bước tái lập được trình bày trong \texttt{README.md}. Cài đúng phiên bản thư viện
+trong \texttt{requirements.txt}, chạy kiểm thử, sau đó chạy hai tập thực nghiệm
+bằng \texttt{scripts/benchmark.py}, tổng hợp bằng \texttt{scripts/analyze.py}
+và cập nhật báo cáo bằng \texttt{scripts/build\_report.py}.
+Script giữ lại nhật ký JSONL trước khi sinh bảng và hình; mỗi nghiệm SAT chứa đủ
+danh sách vị trí để người đọc kiểm tra độc lập mà không phải giải lại.
+Không xóa các trạng thái lỗi hoặc timeout khỏi mẫu số khi tính tỷ lệ hoàn thành.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Đối chiếu sản phẩm với yêu cầu Bài tập lớn số 1}
+\begin{tabularx}{\linewidth}{p{.31\linewidth}X}
+\toprule
+Yêu cầu & Sản phẩm và phạm vi đáp ứng\\
+\midrule
+Cá nhân và chọn N-Queens & Nguyễn Duy Trường, 24021650, CS5; chỉ làm đề tài N-Queens.\\
+SAT solver và mã nguồn & Năm encoding CNF; Glucose3 qua PySAT; xuất DIMACS và kiểm tra nghiệm.\\
+CPLEX CP, CPLEX MIP, Gurobi, CP-SAT & Đã cài mô hình và chạy công cụ thật; các lần vượt giới hạn giấy phép được công bố riêng.\\
+Bàn cờ kích thước lớn & Khảo sát tới $1000\times1000$ trong hạn 30 giây; công bố cả timeout và trường hợp bỏ qua theo trần tài nguyên.\\
+Báo cáo dạng bài báo Elsevier & Nguồn LaTeX dùng lớp \texttt{cas-sc}, các bảng và hình sinh từ dữ liệu đo.\\
+Data Availability & URL repository thật và gói nguồn kèm kết quả; repository riêng tư cần cấp quyền cho người chấm.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{thebibliography}{99}
+\bibitem{bach2024} Trần Ngọc Bách, \emph{An optimized SAT approach solving N-Queens problem},
+Technology Project Report, Trường Đại học Công nghệ, ĐHQGHN, 2024. Tài liệu do học phần cung cấp.
+\bibitem{module3} Tô Văn Khánh, \emph{At Most One -- AMO, At Least One -- ALO Encoding},
+Module3, tài liệu học phần, 17 trang.
+\bibitem{module2} Tô Văn Khánh, \emph{SAT Encoding}, Module2, tài liệu học phần, 27 trang.
+\bibitem{assignment} \emph{Assignment 1 -- requirements}, Các vấn đề hiện đại KHMT,
+HK I năm học 2026--2027, 1 trang.
+\bibitem{sample} \emph{Mau xay dung bao cao BTL so 1 và BTL so 2},
+bài minh họa \emph{Exact SAT Solving for the Two-Dimensional Bandwidth Minimization Problem},
+PDF 32 trang, tài liệu do học phần cung cấp.
+\bibitem{pysat} A. Ignatiev, A. Morgado, J. Marques-Silva,
+PySAT A Python Toolkit for Prototyping with SAT Oracles, SAT 2018.
+\url{https://pysathq.github.io/}.
+\bibitem{sinz} C. Sinz, Towards an Optimal CNF Encoding of Boolean Cardinality Constraints,
+CP 2005, tr. 827--831. \url{https://www.carstensinz.de/papers/CP-2005.pdf}.
+\bibitem{ortools} Google, OR-Tools CP-SAT và mô hình N-Queens,
+\url{https://developers.google.com/optimization/cp/queens}.
+\bibitem{ibm} IBM, DOcplex và tài liệu CPLEX Python,
+\url{https://ibmdecisionoptimization.github.io/docplex-doc/}.
+\bibitem{gurobi} Gurobi Optimization, Gurobi Optimizer Reference Manual,
+\url{https://docs.gurobi.com/projects/optimizer/en/current/}.
+\bibitem{ibmlimits} IBM, CPLEX Optimization Studio Pricing,
+\url{https://www.ibm.com/products/ilog-cplex-optimization-studio/pricing}.
+\bibitem{gurobilimits} Gurobi, Restricted license for non production use,
+\url{https://support.gurobi.com/hc/en-us/articles/29682074018833}.
+\bibitem{cas} Elsevier, CAS LaTeX Templates,
+\url{https://ctan.org/pkg/els-cas-templates}.
+\end{thebibliography}
+\end{document}

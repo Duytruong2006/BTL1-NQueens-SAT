@@ -1,0 +1,14 @@
+test_binary_clause_and_variable_counts (test_sat.TestAMO.test_binary_clause_and_variable_counts) ... ok
+test_every_primary_assignment_with_existential_auxiliaries (test_sat.TestAMO.test_every_primary_assignment_with_existential_auxiliaries)
+2^m cách gán biến chính; solver chọn tồn tại biến phụ, m=0..8. ... ok
+test_sequential_clause_and_variable_counts (test_sat.TestAMO.test_sequential_clause_and_variable_counts) ... ok
+test_dimacs_round_trip (test_sat.TestNQueens.test_dimacs_round_trip) ... ok
+test_invalid_parameters (test_sat.TestNQueens.test_invalid_parameters) ... ok
+test_small_boards (test_sat.TestNQueens.test_small_boards) ... ok
+test_solution_counts_without_duplicate_auxiliary_assignments (test_sat.TestNQueens.test_solution_counts_without_duplicate_auxiliary_assignments) ... ok
+test_validator_rejects_invalid_boards (test_sat.TestNQueens.test_validator_rejects_invalid_boards) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.174s
+
+OK

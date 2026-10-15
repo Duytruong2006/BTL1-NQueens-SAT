@@ -6,7 +6,7 @@ Bài tập lớn số 1 môn Các vấn đề hiện đại trong KHMT, học k�
 
 Repository: https://github.com/Duytruong2006/BTL1-NQueens-SAT
 
-Giải nén gói `BTL1_NguyenDuyTruong_24021650.zip` để có đầy đủ cấu trúc thư mục bên dưới. Bản PDF và gói mã nguồn có thể dùng độc lập tại máy. Khi nộp qua GitHub, tải gói bài làm và bản PDF lên repository trên rồi cấp quyền đọc cho giảng viên.
+Repository lưu trực tiếp mã nguồn, kết quả thực nghiệm và [báo cáo PDF](report/BTL1_NguyenDuyTruong_24021650.pdf). Bạn có thể tải hoặc clone repository để có đầy đủ cấu trúc thư mục bên dưới. Gói `BTL1_NguyenDuyTruong_24021650.zip` được cung cấp riêng để tiện gửi và nộp, không cần giải nén thêm nếu đã dùng thư mục dự án. Khi nộp qua GitHub, cấp quyền đọc repository cho giảng viên.
 
 ## Nội dung
 

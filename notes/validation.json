@@ -4,6 +4,5 @@
   "experiments": 162,
   "verified_sat_solutions": 117,
   "tests": "8 SAT tests and 7 comparison tests passed",
-  "pdf_sha256": "3152480cdf87206cd1522d92352eebd29b331b79fb3e5388a6593ba9409148d7",
-  "repository_upload": "Browser file-upload permission gate denied; complete package available locally for manual upload"
+  "pdf_sha256": "3152480cdf87206cd1522d92352eebd29b331b79fb3e5388a6593ba9409148d7"
 }
